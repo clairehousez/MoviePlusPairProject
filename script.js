@@ -26,7 +26,6 @@ movieApp.getPeople = () => {
 
 movieApp.populatePeople = (movieResultsPeople) => {
   movieResultsPeople.forEach((movieResult) => {
-    //create the html for each piece of art
     const gender = document.createElement("p");
     if (movieResult.gender == 1) {
       gender.innerText = "Female";
@@ -66,16 +65,13 @@ movieApp.getSearch = (searchTerm) => {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      //pass data to
       movieApp.displayActionGenre(data.results);
-      //its all appending at once, create a separate div for each section
     });
 };
 
 movieApp.searchMovie = () => {
   movieApp.form.addEventListener("submit", (e) => {
     e.preventDefault();
-    //add some basic if statement to check for empty strings and null values
     const searchTerm = search.value;
     if (searchTerm) {
       movieApp.getSearch(searchTerm);
@@ -115,7 +111,6 @@ movieApp.discoverData = (query) => {
 
 movieApp.displayActionGenre = (movieResults) => {
   movieResults.forEach((movieResult) => {
-    //create the html for each piece of art
     const title = document.createElement("h2");
     title.innerText = movieResult.title;
 
@@ -126,7 +121,6 @@ movieApp.displayActionGenre = (movieResults) => {
     image.src = movieApp.imageURL + movieResult.poster_path;
     image.alt = movieResult.title;
 
-    //now put them in a div container;
     const div = document.createElement("div");
     div.classList.add("moviePiece");
 
@@ -143,16 +137,9 @@ movieApp.populateDropdown = (dataFromApi) => {
     const option = document.createElement("option");
     option.textContent = genre.name;
     option.id = genre.id;
-    // console.log(genre)
     movieApp.dropdown.addEventListener("change", (e) => {
-      console.log(e.target.value);
-      const movie = option.id;
-      //  console.log(movie)
-      //maybe do .value but for the individual id?
-      //its appending all the ids all at once so need to loop through them.
-      //so idea is to maybe push 1 id at a time to the empty array and then loop over it?
-      //so it has to be a common thing of that dropdown object
-      movieApp.discoverData(movie);
+      const movie = e.target.value;
+      movieApp.getSearch(movie);
     });
     movieApp.dropdown.append(option);
   });
