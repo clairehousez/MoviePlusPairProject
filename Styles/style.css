@@ -239,6 +239,12 @@ body {
   background: #2b2b2b;
 }
 
+.wrapper {
+  max-width: 1200px;
+  width: 85%;
+  margin: 0 auto;
+}
+
 html {
   font-size: 125%;
 }
@@ -252,10 +258,42 @@ body {
 h1,
 h2,
 h3,
-h4 {
+h4,
+footer {
   font-family: "Baskervville", serif;
   background-color: #d6003d;
   color: #ebebeb;
+}
+
+h2,
+h3,
+h4 {
+  text-align: center;
+}
+
+footer {
+  height: 300px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+footer h2 {
+  text-shadow: -1px -1px 0 #2b2b2b, 1px -1px 0 #2b2b2b, -1px 1px 0 #2b2b2b, 1px 1px 0 #2b2b2b;
+}
+footer p {
+  font-family: "Lato", sans-serif;
+}
+footer a {
+  color: #ebebeb;
+  text-decoration: none;
 }
 
 h1 {
@@ -273,4 +311,105 @@ h1 {
 .clapperboard {
   color: #2b2b2b;
   text-shadow: none;
+}
+
+.carousel {
+  height: 600px;
+  width: 100%;
+  position: relative;
+  border: 5px solid green;
+}
+
+.trendingMovies {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+}
+.trendingMovies img {
+  height: 500px;
+  width: auto;
+}
+
+.carousel .prevSlide,
+.carousel .nextSlide {
+  color: #ebebeb;
+  background-color: #d6003d;
+  font-weight: bold;
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 1.5rem;
+  border-radius: 100%;
+  display: inline-block;
+  text-align: center;
+  top: 250px;
+  z-index: 20;
+  border: none;
+  cursor: pointer;
+}
+.carousel .prevSlide:hover, .carousel .prevSlide:focus,
+.carousel .nextSlide:hover,
+.carousel .nextSlide:focus {
+  background-color: #ab0031;
+}
+
+.carousel .prevSlide {
+  position: absolute;
+  left: 0;
+}
+
+.carousel .nextSlide {
+  position: absolute;
+  right: 0;
+}
+
+.movieInfo {
+  color: #ebebeb;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+}
+.movieInfo h3 {
+  margin-bottom: 0;
+  padding: 5px;
+  width: 100%;
+  height: 2.5rem;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 20px;
+  padding-top: 10px;
+}
+.movieInfo span {
+  position: absolute;
+  border-radius: 100%;
+  top: 80px;
+  right: 20px;
+  height: 2.2rem;
+  width: 2.2rem;
+  font-weight: bold;
+  padding: 0.4rem 0.4rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.movieInfo span.green {
+  background-color: lawngreen;
+  text-shadow: -1px -1px 0 #00911b, 1px -1px 0 #00911b, -1px 1px 0 #00911b, 1px 1px 0 #00911b;
+}
+
+.movieInfo span.orange {
+  background-color: orange;
+  text-shadow: -1px -1px 0 #fa7719, 1px -1px 0 #fa7719, -1px 1px 0 #fa7719, 1px 1px 0 #fa7719;
+}
+
+.movieInfo span.red {
+  background-color: red;
+  text-shadow: -1px -1px 0 #c90202, 1px -1px 0 #c90202, -1px 1px 0 #c90202, 1px 1px 0 #c90202;
 }
