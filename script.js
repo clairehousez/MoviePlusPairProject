@@ -1,66 +1,206 @@
-const API_KEY = "api_key=3a0641f8102192c59a0e2ba5b56c7347"
-const BASE_URL = "https://api.themoviedb.org/3"
-const API_URL = BASE_URL + "/trending/movie/week?" + API_KEY
+const movieApp = {};
+movieApp.dropdown = document.querySelector("#dropdown");
+movieApp.form = document.querySelector("#form");
+movieApp.baseURL = "https://api.themoviedb.org/3";
+movieApp.genresURL = "https://api.themoviedb.org/3/genre/movie/list";
+movieApp.apiKey = "3a0641f8102192c59a0e2ba5b56c7347";
+movieApp.discoverURL =
+movieApp.baseURL + "/discover/movie?sort_by=popularity.desc&";
+movieApp.searchURL = movieApp.baseURL + "/search/movie?";
+movieApp.imageURL = "https://image.tmdb.org/t/p/w500";
+movieApp.peopleURL = "https://api.themoviedb.org/3/person/popular";
 
-const IMG_URL = "https://image.tmdb.org/t/p/w500"
+movieApp.getPeople = () => {
+  const url = new URL(movieApp.peopleURL);
 
-const trendingMovies = document.getElementById("trendingMovies")
+  url.search = new URLSearchParams({
+    api_key: movieApp.apiKey,
+  });
 
-getTrendingMovies(API_URL)
-
-function getTrendingMovies(url) {
-    fetch(url).then(results => results.json()).then(data => {
-        displayTrendingMovies(data.results)
+  fetch(url)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
     })
+    .then((data) => {
+      movieApp.populatePeople(data.results);
+    })
+    .catch((error) => {
+      movieApp.displayError(error)
+    });
+};
+
+movieApp.displayError = (error) => {
+if (error.message === "404") {
+  const bodyElement = document.querySelector("main");
+  const h1Element = document.createElement("h1");
+  h1Element.innerHTML = "No data was found. Please check the URL.";
+  bodyElement.appendChild(h1Element);
+} else {
+  const bodyElement = document.querySelector("main");
+  const h1Element = document.createElement("h1");
+  h1Element.innerHTML = "No data was found. Please check the URL.";
+  bodyElement.appendChild(h1Element);
+}
 }
 
-function displayTrendingMovies(data) {
-    trendingMovies.innerHTML = ""
-
-    data.forEach(movie => {
-        const {title, poster_path, vote_average} = movie
-        const movieElement = document.createElement("div")
-        movieElement.classList.add("trending")
-        movieElement.innerHTML = `
-            
-            <div class="movieInfo">
-                <h3>${title}</h3>
-                <span class="${getColor(vote_average)}">${vote_average}</span>
-            </div>
-        
-            <img src="${IMG_URL+poster_path}" alt="${title}">
-
-            
-        `
-
-        trendingMovies.appendChild(movieElement)
-    })
-}
-
-function getColor(vote) {
-    if(vote >= 8){
-        return "green"
-    } else if (vote >= 5){
-        return "orange"
-    } else{
-        return "red"
+movieApp.populatePeople = (movieResultsPeople) => {
+  movieResultsPeople.forEach((movieResult) => {
+    const gender = document.createElement("p");
+    if (movieResult.gender == 1) {
+      gender.innerText = "Female";
+    } else {
+      gender.innerText = "Male";
     }
-}
+    const name = document.createElement("h3");
+    name.innerText = movieResult.name;
+    const popularity = document.createElement("p");
+    popularity.innerText = movieResult.popularity;
+    const image = document.createElement("img");
+    image.src = movieApp.imageURL + movieResult.profile_path;
+    image.alt = movieResult.name;
 
-const carouselSlide = document.querySelector(".trendingMovies")
-const carouselImages = document.querySelectorAll (".trendingMovies img")
+    const div = document.createElement("div");
+    div.classList.add("peoplePiece");
 
-const previous = document.querySelector(".prevSlide")
-const next = document.querySelector(".nextSlide")
+    div.appendChild(name);
+    div.appendChild(image);
+    div.appendChild(popularity);
+    div.appendChild(gender);
 
-let counter = 1
-const size = carouselImages[0].clientWidth
+    document.querySelector("#popularPeople").append(div);
+  });
+};
 
-carouselSlide.style.transform = "translateX(" + (-size * counter) + "px)"
+movieApp.getSearch = (searchTerm) => {
+  const url = new URL(movieApp.searchURL);
 
-//button listeners
-next.addEventListener("click", () => {
-    carouselSlide.style.transition = "transform 0.4 ease-in"
-    counter++;
-    carouselSlide.style.transform = "translateX(" + (-size * counter) + "px)"
-})
+  url.search = new URLSearchParams({
+    api_key: movieApp.apiKey,
+    query: searchTerm,
+  });
+
+  fetch(url)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+    .then((data) => {
+      document.querySelector("#actionMovies").innerHTML = "";
+      movieApp.displayData(data.results);
+    })
+    .catch((error) => {
+      movieApp.displayError(error);
+    });
+};
+
+movieApp.searchMovie = () => {
+  movieApp.form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const searchTerm = search.value;
+    if (searchTerm) {
+      movieApp.getSearch(searchTerm);
+    } else {
+      movieApp.discoverData(search);
+    }
+  });
+};
+
+movieApp.getGenreData = () => {
+  const url = new URL(movieApp.genresURL);
+
+  url.search = new URLSearchParams({
+    api_key: movieApp.apiKey,
+  });
+
+  fetch(url)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+    .then((data) => {
+      movieApp.populateDropdown(data.genres);
+    })
+    .catch((error) => {
+      movieApp.displayError(error);
+    });
+};
+
+movieApp.discoverData = (query) => {
+  const url = new URL(movieApp.discoverURL);
+
+  url.search = new URLSearchParams({
+    api_key: movieApp.apiKey,
+    with_genres: query
+  });
+
+  fetch(url)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+    .then((data) => {
+      movieApp.displayData(data.results);
+    })
+    .catch((error) => {
+      movieApp.displayError(error);
+    });
+};
+
+
+movieApp.displayData = (movieResults) => {
+  movieResults.forEach((movieResult) => {
+    const title = document.createElement("h2");
+    title.innerText = movieResult.title;
+
+    const overview = document.createElement("p");
+    overview.innerText = movieResult.overview;
+
+    const image = document.createElement("img");
+    image.src = movieApp.imageURL + movieResult.poster_path;
+    image.alt = movieResult.title;
+
+    const div = document.createElement("div");
+    div.classList.add("moviePiece");
+
+    div.appendChild(title);
+    div.appendChild(overview);
+    div.appendChild(image);
+
+    document.querySelector("#actionMovies").append(div);
+  });
+};
+
+movieApp.populateDropdown = (dataFromApi) => {
+  dataFromApi.forEach(function (genre) {
+    const option = document.createElement("option");
+    option.textContent = genre.name;
+    option.id = genre.id;
+
+    movieApp.dropdown.addEventListener("change", (e) => {
+      const movie = e.target.value;
+      movieApp.getSearch(movie);
+    });
+    movieApp.dropdown.append(option);
+  });
+};
+
+movieApp.init = () => {
+  movieApp.getGenreData();
+  movieApp.getPeople();
+  movieApp.searchMovie();
+};
+
+movieApp.init();
