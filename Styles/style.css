@@ -460,3 +460,73 @@ footer a:hover, footer a:focus {
   text-shadow: 0 0 7px #ebebeb, 0 0 10px #ebebeb, 0 0 21px #ebebeb, 0 0 42px #f50248, 0 0 82px #f50248, 0 0 92px #f50248, 0 0 102px #f50248, 0 0 151px #f50248;
   outline: 0;
 }
+
+@media (max-width: 375px) {
+  .wrapper {
+    max-width: 375px;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  header {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 200px;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  header input {
+    width: 100%;
+    display: inline-block;
+    height: 2rem;
+  }
+  header button {
+    border: none;
+    position: absolute;
+    right: 0;
+  }
+
+  .actionMovies {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: auto;
+  }
+  .actionMovies h3 {
+    font-size: 1rem;
+    background-color: #d6003d;
+    display: inline-block;
+    height: auto;
+    text-align: center;
+    width: 100%;
+  }
+  .actionMovies p {
+    margin: 0;
+    height: auto;
+    width: 100%;
+  }
+  .actionMovies img {
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  .popularPeople {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+}
