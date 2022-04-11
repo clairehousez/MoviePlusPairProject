@@ -162,7 +162,7 @@ movieApp.discoverData = (query) => {
 
 movieApp.displayData = (movieResults) => {
   movieResults.forEach((movieResult) => {
-    const title = document.createElement("h2");
+    const title = document.createElement("h3");
     title.innerText = movieResult.title;
 
     const overview = document.createElement("p");
