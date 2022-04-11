@@ -14,35 +14,24 @@
 <body>
     <header>
         <h1><span class="clapperboard"><i class="fa-solid fa-clapperboard"></i> </span> Movie+</h1>
+
         <form id="form">
             <input type="text" placeholder="Search" id="search" class="search">
         </form>
     </header>
+   
 
     <main>
-        <section class="discoverMovies">
-            <div class="wrapper">
-                <p>Select your favourite genre!</p>
-                <select name="movie" id="dropdown">
-                </select>
-            </div>
-            <div class="section action">
-                <div class="wrapper" id="actionMovies">
-                </div>
-            </div>
-        </section>
-        <section class="people">
-            <div class="wrapper" id="popularPeople">
-                
-            </div>
-            
-        </section>
-        
+        <div class="wrapper">
+            <p>Select your favourite genre!</p>
+            <select name="genres" id="dropdown"></select>
+        </div>
+
     </main>
-    
+
     <footer>Data courtesy of <a href="https://www.themoviedb.org/documentation/api">The Movie Database</a></footer>
-    
-    
+
+ 
     
     <script src="script.js"></script>
 </body>

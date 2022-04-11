@@ -1,3 +1,4 @@
+
 const movieApp = {};
 movieApp.dropdown = document.querySelector("#dropdown");
 movieApp.form = document.querySelector("#form");
@@ -208,3 +209,5 @@ movieApp.init = () => {
 };
 
 movieApp.init();
+
+
