@@ -169,7 +169,11 @@ movieApp.displayData = (movieResults) => {
     overview.innerText = movieResult.overview;
 
     const image = document.createElement("img");
-    image.src = movieApp.imageURL + movieResult.poster_path;
+    if(movieResult.poster_path === null) {
+      image.src = movieApp.imageURL + movieResult.backdrop_path
+    } else {
+      image.src = movieApp.imageURL + movieResult.poster_path;
+    }
     image.alt = movieResult.title;
 
     const div = document.createElement("div");
