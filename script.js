@@ -5,7 +5,7 @@ movieApp.baseURL = "https://api.themoviedb.org/3";
 movieApp.genresURL = "https://api.themoviedb.org/3/genre/movie/list";
 movieApp.apiKey = "3a0641f8102192c59a0e2ba5b56c7347";
 movieApp.discoverURL =
-  movieApp.baseURL + "/discover/movie?sort_by=popularity.desc&";
+movieApp.baseURL + "/discover/movie?sort_by=popularity.desc&";
 movieApp.searchURL = movieApp.baseURL + "/search/movie?";
 movieApp.imageURL = "https://image.tmdb.org/t/p/w500";
 movieApp.peopleURL = "https://api.themoviedb.org/3/person/popular";
@@ -18,11 +18,34 @@ movieApp.getPeople = () => {
   });
 
   fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
     .then((data) => {
       movieApp.populatePeople(data.results);
+    })
+    .catch((error) => {
+      movieApp.displayError(error)
     });
 };
+
+movieApp.displayError = (error) => {
+if (error.message === "404") {
+  const bodyElement = document.querySelector("main");
+  const h1Element = document.createElement("h1");
+  h1Element.innerHTML = "No data was found. Please check the URL.";
+  bodyElement.appendChild(h1Element);
+} else {
+  const bodyElement = document.querySelector("main");
+  const h1Element = document.createElement("h1");
+  h1Element.innerHTML = "No data was found. Please check the URL.";
+  bodyElement.appendChild(h1Element);
+}
+}
 
 movieApp.populatePeople = (movieResultsPeople) => {
   movieResultsPeople.forEach((movieResult) => {
@@ -61,11 +84,20 @@ movieApp.getSearch = (searchTerm) => {
   });
 
   fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      document.querySelector("#actionMovies").innerHTML = ""
-      movieApp.displayActionGenre(data.results);
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
     })
+    .then((data) => {
+      document.querySelector("#actionMovies").innerHTML = "";
+      movieApp.displayData(data.results);
+    })
+    .catch((error) => {
+      movieApp.displayError(error);
+    });
 };
 
 movieApp.searchMovie = () => {
@@ -88,9 +120,18 @@ movieApp.getGenreData = () => {
   });
 
   fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
     .then((data) => {
       movieApp.populateDropdown(data.genres);
+    })
+    .catch((error) => {
+      movieApp.displayError(error);
     });
 };
 
@@ -103,14 +144,23 @@ movieApp.discoverData = (query) => {
   });
 
   fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
     .then((data) => {
-      movieApp.displayActionGenre(data.results)
+      movieApp.displayData(data.results);
+    })
+    .catch((error) => {
+      movieApp.displayError(error);
     });
 };
 
 
-movieApp.displayActionGenre = (movieResults) => {
+movieApp.displayData = (movieResults) => {
   movieResults.forEach((movieResult) => {
     const title = document.createElement("h2");
     title.innerText = movieResult.title;
