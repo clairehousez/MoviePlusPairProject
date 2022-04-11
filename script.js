@@ -40,7 +40,6 @@ movieApp.populatePeople = (movieResultsPeople) => {
     image.src = movieApp.imageURL + movieResult.profile_path;
     image.alt = movieResult.name;
 
-    //now put them in a div container;
     const div = document.createElement("div");
     div.classList.add("peoplePiece");
 
@@ -64,9 +63,9 @@ movieApp.getSearch = (searchTerm) => {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      document.querySelector("#actionMovies").innerHTML = ""
       movieApp.displayActionGenre(data.results);
-    });
+    })
 };
 
 movieApp.searchMovie = () => {
@@ -75,6 +74,8 @@ movieApp.searchMovie = () => {
     const searchTerm = search.value;
     if (searchTerm) {
       movieApp.getSearch(searchTerm);
+    } else {
+      movieApp.discoverData(search);
     }
   });
 };
@@ -98,16 +99,16 @@ movieApp.discoverData = (query) => {
 
   url.search = new URLSearchParams({
     api_key: movieApp.apiKey,
-    with_genres: query,
+    with_genres: query
   });
 
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      document.querySelector("#actionMovies").innerHTML = "";
-      movieApp.displayActionGenre(data.results);
+      movieApp.displayActionGenre(data.results)
     });
 };
+
 
 movieApp.displayActionGenre = (movieResults) => {
   movieResults.forEach((movieResult) => {
@@ -137,6 +138,7 @@ movieApp.populateDropdown = (dataFromApi) => {
     const option = document.createElement("option");
     option.textContent = genre.name;
     option.id = genre.id;
+
     movieApp.dropdown.addEventListener("change", (e) => {
       const movie = e.target.value;
       movieApp.getSearch(movie);
@@ -147,7 +149,6 @@ movieApp.populateDropdown = (dataFromApi) => {
 
 movieApp.init = () => {
   movieApp.getGenreData();
-  // movieApp.discoverData();
   movieApp.getPeople();
   movieApp.searchMovie();
 };
